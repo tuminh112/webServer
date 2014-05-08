@@ -23,39 +23,34 @@ class Worker extends Thread { // Class definition
 			// Note that it is remotely possible that this branch will not
 			// execute:
 			if (MyListener.controlSwitch != true) {
-				System.out
-						.println("Listener is now shutting down as per client request.");
+				System.out.println("Listener is now shutting down as per client request.");
 				out.println("Server is now shutting down. Goodbye!");
 			} else
 				try {
 					String name;
 					name = in.readLine();
-					if (name.indexOf("shutdown") > -1) {
-						MyListener.controlSwitch = false;
-						System.out
-								.println("Worker has captured a shutdown request.");
-						out.println("Shutdown request has been noted by worker.");
-						out.println("Please send final shutdown request to listener.");
-					} else {
-						System.out.println("Client Message: " + name + "" );
-						printMessageToClient(name, out);
-					}
+					
+						for (int i = 1; i <= name.length(); i++) {
+							
+							if (name != null){
+								System.out.println(name);
+								out.println(name);
+							}
+							name = in.readLine();
+						}
+						sock.close();
+						
+					
 				} catch (IOException x) {
 					System.out.println("Server read error");
 					x.printStackTrace();
 				}
 
-			sock.close(); // close this connection, but not the server;
+			//sock.close(); // close this connection, but not the server;
 		} catch (IOException ioe) {
 			System.out.println(ioe);
 		}
 	}
-
-	static void printMessageToClient(String name, PrintStream out) {
-		out.println(name);
-	
-	}
-	
 	
 }
 
