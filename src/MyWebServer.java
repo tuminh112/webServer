@@ -44,6 +44,24 @@ class webWorker extends Thread { // Class definition
 				}else{
 					File f = new File(req2);
 					InputStream file = new FileInputStream(f);
+					
+					
+					
+					
+					File f1 = new File ( "parentdir/" ) ;
+				    
+				    // Get all the files and directory under your diretcory
+				    File[] strFilesDirs = f1.listFiles ( );
+				    
+				    for ( int i = 0 ; i < strFilesDirs.length ; i ++ ) {
+				      if ( strFilesDirs[i].isDirectory ( ) ) 
+					out.println ("<h1>Index of /" + f1 + "</h1>" +
+								"<a href="+ strFilesDirs[i] + "></a> <br>") ;
+				      else if ( strFilesDirs[i].isFile ( ) )
+					out.println ( "<a href="+ strFilesDirs[i] + "></a> <br>") ;
+				    }
+					
+					
 
 					String outputData = "HTTP/1.1 200 OK" + "\r\n"
 							+ "Content-Type: " + contentType(req) + "\r\n"
@@ -51,8 +69,8 @@ class webWorker extends Thread { // Class definition
 							+ "\r\n\r\n";
 
 					out.println(outputData);
-					System.out.println(outputData);
-
+					System.out.println(req);
+					
 					sendFileToClient(file, out); // send raw file
 					log(sock, "200 OK");
 					out.flush();
@@ -64,6 +82,26 @@ class webWorker extends Thread { // Class definition
 			System.out.println(ioe);
 		}
 
+	}
+	private static void listFileAndDir(String req ,PrintStream out ){
+		String filedir ;
+	    // Create a file object for your root directory
+
+	    // E.g. For windows:    File f1 = new File ( "C:\\temp" ) ;
+
+	    // For Unix:
+	    File f1 = new File ( "./" ) ;
+	    
+	    // Get all the files and directory under your diretcory
+	    File[] strFilesDirs = f1.listFiles ( );
+	    
+	    for ( int i = 0 ; i < strFilesDirs.length ; i ++ ) {
+	      if ( strFilesDirs[i].isDirectory ( ) ) 
+		out.println ( "Directory: " + strFilesDirs[i] ) ;
+	      else if ( strFilesDirs[i].isFile ( ) )
+		out.println ( "File: " + strFilesDirs[i] + 
+				     " (" + strFilesDirs[i].length ( ) + ")" ) ;
+	    }
 	}
 
 	private static void log(Socket sock, String msg) {
